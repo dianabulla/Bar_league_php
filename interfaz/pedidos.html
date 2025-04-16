@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Productos</title>
+  <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+  <h2>Registrar Producto</h2>
+  <form id="formProducto">
+    <input type="text" id="codigo" placeholder="Código" required><br>
+    <input type="text" id="nombre" placeholder="Nombre" required><br>
+    <input type="text" id="descripcion" placeholder="Descripción"><br>
+    <input type="number" id="valor_unitario" placeholder="Valor unitario" step="0.01" required><br>
+    <button type="submit">Guardar</button>
+  </form>
+
+  <h2>Lista de Productos</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody id="tablaProductos"></tbody>
+  </table>
+
+  <script src="../js/productos.js"></script>
+</body>
+</html>

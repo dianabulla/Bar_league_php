@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Usuarios</title>
+  <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+  <h2>Registrar Usuario</h2>
+  <form id="formUsuario">
+    <input type="text" id="codigo" placeholder="Código" required><br>
+    <input type="text" id="nombre" placeholder="Nombre" required><br>
+    <input type="password" id="contrasena" placeholder="Contraseña" required><br>
+    <select id="tipo_usuario">
+      <option value="admin">Administrador</option>
+      <option value="mesero">Mesero</option>
+    </select><br>
+    <button type="submit">Guardar</button>
+  </form>
+
+  <h2>Lista de Usuarios</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+      </tr>
+    </thead>
+    <tbody id="tablaUsuarios"></tbody>
+  </table>
+
+  <script src="../js/usuarios.js"></script>
+</body>
+</html>
+
