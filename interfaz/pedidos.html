@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
-  <title>Gestión de Productos</title>
+  <title>Registrar Pedido</title>
   <link rel="stylesheet" href="../css/estilos.css">
 </head>
-<body>
-  <h2>Registrar Producto</h2>
-  <form id="formProducto">
-    <input type="text" id="codigo" placeholder="Código" required><br>
-    <input type="text" id="nombre" placeholder="Nombre" required><br>
-    <input type="text" id="descripcion" placeholder="Descripción"><br>
-    <input type="number" id="valor_unitario" placeholder="Valor unitario" step="0.01" required><br>
-    <button type="submit">Guardar</button>
-  </form>
 
-  <h2>Lista de Productos</h2>
+<body>
+  <h2>Registrar Pedido</h2>
+
+  <label for="usuario">Seleccionar Usuario:</label>
+  <select id="usuario"></select>
+
+  <h3>Agregar Productos</h3>
   <table border="1">
     <thead>
       <tr>
-        <th>Código</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Valor</th>
+        <th>Producto</th>
+        <th>Valor Unitario</th>
+        <th>Cantidad</th>
+        <th>Subtotal</th>
+        <th>Acción</th>
       </tr>
     </thead>
-    <tbody id="tablaProductos"></tbody>
+    <tbody id="detallePedido"></tbody>
   </table>
 
-  <script src="../js/productos.js"></script>
+  <button id="agregarProducto">+ Agregar Producto</button>
+  <br><br>
+  <button id="guardarPedido">Guardar Pedido</button>
+
+
+
+
+  <hr>
+  <h2>Pedidos Registrados</h2>
+
+  <label for="filtroFecha">Filtrar por fecha:</label>
+  <input type="date" id="filtroFecha">
+  <button onclick="filtrarPedidos()">Buscar</button>
+
+  <table border="1" id="tablaPedidos">
+    <thead>
+      <tr>
+        <th>id_pedido</th>
+        <th>Fecha</th>
+        <th>Usuario</th>
+        <th>Estado</th>
+        <th>Productos</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+
+  <script src="../js/pedidos.js"></script>
 </body>
+
 </html>
