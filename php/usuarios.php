@@ -15,10 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $codigo = $_POST['codigo'];
-    $nombre = $_POST['nombre'];
-    $contrasena = $_POST['contrasena'];
-    $tipo = $_POST['tipo_usuario'];
+    // Detecta si los datos vienen como JSON (Postman)
+    $input = file_get_contents("php://input");
+    $data = json_decode($input, true);
+
+    if ($data !== null) {
+        // Datos en formato JSON
+        $codigo = $data['codigo'];
+        $nombre = $data['nombre'];
+        $contrasena = $data['contrasena'];
+        $tipo = $data['tipo_usuario'];
+    } else {
+        // Datos en formato FormData (desde formulario web)
+        $codigo = $_POST['codigo'];
+        $nombre = $_POST['nombre'];
+        $contrasena = $_POST['contrasena'];
+        $tipo = $_POST['tipo_usuario'];
+    }
 
     $sql = "INSERT INTO usuarios (codigo, nombre, contrasena, tipo_usuario) 
             VALUES ('$codigo', '$nombre', '$contrasena', '$tipo')";
@@ -29,4 +42,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["success" => false, "error" => $conn->error]);
     }
 }
+
 ?>
