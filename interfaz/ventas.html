@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ventas Registradas</title>
+  <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+  <h1>Listado de Ventas</h1>
+
+  <label for="filtroFecha">Filtrar por fecha:</label>
+  <input type="date" id="filtroFecha">
+  <button onclick="filtrarVentas()">Filtrar</button>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID Venta</th>
+        <th>ID Pedido</th>
+        <th>Total Venta</th>
+        <th>Fecha Venta</th>
+      </tr>
+    </thead>
+    <tbody id="tablaVentas"></tbody>
+  </table>
+
+  <script src="../js/ventas.js"></script>
+</body>
+</html>
