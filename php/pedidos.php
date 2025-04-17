@@ -2,9 +2,38 @@
 header('Content-Type: application/json');
 include('db.php');
 
+// Mostrar errores (debug)
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
+// ACTUALIZAR ESTADO Y GENERAR VENTA
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'actualizar_estado') {
+    $id_pedido = $_POST['id_pedido'];
+    $estado = $_POST['estado'];
+    $venta_generada = false;
+    $id_venta = null;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'listar') {
+    $conn->query("UPDATE pedidos SET estado = '$estado' WHERE id_pedido = $id_pedido");
+
+    if ($estado === 'pagado') {
+        $result = $conn->query("SELECT SUM(subtotal) AS total FROM detalle_pedido WHERE id_pedido = $id_pedido");
+        $total = $result->fetch_assoc()['total'];
+
+        $conn->query("INSERT INTO ventas (id_pedido, total_venta) VALUES ($id_pedido, $total)");
+        $id_venta = $conn->insert_id;
+        $venta_generada = true;
+    }
+
+    echo json_encode([
+        "success" => true,
+        "venta_generada" => $venta_generada,
+        "id_venta" => $id_venta
+    ]);
+    exit;
+}
+
+// LISTAR PEDIDOS
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'listar') {
     $fecha = $_POST['fecha'] ?? '';
     $where = $fecha ? "WHERE DATE(p.fecha) = '$fecha'" : "";
 
@@ -36,11 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['
     exit;
 }
 
-
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// INSERTAR NUEVO PEDIDO
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['accion'] === 'insertar') {
     $id_usuario = $_POST['id_usuario'];
     $estado = $_POST['estado'];
     $detalle = json_decode($_POST['detalle'], true);
@@ -67,4 +93,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->rollback();
         echo json_encode(["success" => false, "error" => $e->getMessage()]);
     }
+    exit;
 }
+
+// Cualquier otro caso inválido
+echo json_encode(["success" => false, "error" => "Acción no válida"]);
+exit;

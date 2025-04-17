@@ -80,6 +80,8 @@ function agregarFilaProducto() {
     }
 }
 
+
+
 function guardarPedido() {
     const usuario = document.getElementById("usuario").value;
     const filas = document.querySelectorAll("#detallePedido tr");
@@ -108,21 +110,23 @@ function guardarPedido() {
     datos.append("id_usuario", usuario);
     datos.append("estado", "pendiente");
     datos.append("detalle", JSON.stringify(detalle));
+    datos.append("accion", "insertar"); // ✅ ESTA LÍNEA ES LA CLAVE
 
     fetch("../php/pedidos.php", {
         method: "POST",
         body: datos
     })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success) {
-                alert("Pedido guardado exitosamente");
-                location.reload();
-            } else {
-                alert("Error: " + data.error);
-            }
-        });
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert("Pedido guardado exitosamente");
+            location.reload();
+        } else {
+            alert("Error: " + data.error);
+        }
+    });
 }
+
 
 
 
@@ -176,3 +180,28 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarPedidos();
 });
 
+
+
+function actualizarEstado(id_pedido, nuevoEstado) {
+    const formData = new FormData();
+    formData.append("accion", "actualizar_estado");
+    formData.append("id_pedido", id_pedido);
+    formData.append("estado", nuevoEstado);
+  
+    fetch("../php/pedidos.php", {
+      method: "POST",
+      body: formData
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          alert(`Estado actualizado a ${nuevoEstado}`);
+          if (data.venta_generada) {
+            alert(`✅ Venta registrada con ID ${data.id_venta}`);
+          }
+        } else {
+          alert("Error: " + data.error);
+        }
+      });
+  }
+  
